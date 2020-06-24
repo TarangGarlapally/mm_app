@@ -95,7 +95,7 @@ class _LoginState extends State<Login> {
       try{
         FirebaseUser user = (await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)).user ;
         loadUserData(user.uid) ;
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Structure())) ;
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Structure(id: 0))) ;
       }
       catch(e)
       {
@@ -106,7 +106,7 @@ class _LoginState extends State<Login> {
   }
 
   Future signUp(){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Structure())) ;
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Structure(id:0))) ;
 
   }
 }

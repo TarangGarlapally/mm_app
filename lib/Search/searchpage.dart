@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mmapp/More/About.dart';
+import 'package:mmapp/Profile/profilepage.dart';
+import 'feed.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -41,7 +44,8 @@ class _SearchPageState extends State<SearchPage> {
           
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[Center(child: Text("Search the App",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white, ),),),IconButton(icon: Icon(Icons.search, color: Colors.white, ), onPressed: (){
+            children: <Widget>[Center(child: Text("Search the App",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white, ),),),
+            IconButton(icon: Icon(Icons.search, color: Colors.white, ), onPressed: (){
             showSearch(context: context, delegate: SearchFeed());
           },),],),
           color: Color(0xFF009DF0),
@@ -127,12 +131,7 @@ class _SearchPageState extends State<SearchPage> {
 }
 
 
-class Feed{
-}
 
-List<Feed> feedList(){
-  return [];
-}
 
 class SearchFeed extends SearchDelegate<Feed>{
   @override
@@ -158,9 +157,21 @@ class SearchFeed extends SearchDelegate<Feed>{
   
     @override
     Widget buildSuggestions(BuildContext context) {
-    final myList = feedList();
-      return ListView(
-        
+    final myList = query.isEmpty? feedList() : feedList().where((p)=>p.item.startsWith(query)).toList();
+
+      return myList.isEmpty? Text('No results found...') : ListView.builder(
+        itemCount: myList.length,
+        itemBuilder: ((context,index){
+          final String listItem = myList[index].item;
+          return ListTile(
+            onTap: (){
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => myList[index].location ),
+                );
+            },
+            title: Text(listItem),);
+        }),
       );
   }
   
